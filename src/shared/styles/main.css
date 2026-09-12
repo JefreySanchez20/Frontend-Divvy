@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Spline Sans Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Papel: fondo base, más gris que el crema típico */
+  --color-paper: #eeeae0;
+  --color-paper-dim: #e4dfd2;
+  --color-paper-line: #d8d2c1;
+
+  /* Tinta: texto y superficies oscuras */
+  --color-ink: #181f1b;
+  --color-ink-soft: #4a5049;
+  --color-ink-faint: #8b9089;
+
+  /* Marca: verde tinta profundo */
+  --color-brand: #1f4b3f;
+  --color-brand-dim: #163a30;
+  --color-brand-tint: #dce8e2;
+
+  /* Latón: acentos puntuales, nunca como base */
+  --color-brass: #c89b3c;
+  --color-brass-tint: #f2e6c8;
+
+  /* Estados de balance */
+  --color-debe: #b5482f;
+  --color-debe-tint: #f4e0da;
+  --color-haber: #2f6f62;
+  --color-haber-tint: #dcece7;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Cifras tabulares: montos, fechas, saldos siempre alinean por dígito */
+.cifra {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Fondo tipo hoja de libro contable: renglones horizontales finos + el
+   margen vertical rojo de un cuaderno de cuentas, solo desde sm hacia arriba
+   (en mobile el margen se comería demasiado ancho útil). */
+.ledger-sheet {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 35px,
+    color-mix(in srgb, var(--color-paper-line) 65%, transparent) 35px,
+    color-mix(in srgb, var(--color-paper-line) 65%, transparent) 36px
+  );
+}
+
+@media (min-width: 640px) {
+  .ledger-sheet {
+    background-image:
+      linear-gradient(
+        to right,
+        transparent 95px,
+        color-mix(in srgb, var(--color-debe) 35%, transparent) 95px,
+        color-mix(in srgb, var(--color-debe) 35%, transparent) 96px,
+        transparent 96px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 35px,
+        color-mix(in srgb, var(--color-paper-line) 65%, transparent) 35px,
+        color-mix(in srgb, var(--color-paper-line) 65%, transparent) 36px
+      );
+  }
+}
