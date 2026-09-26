@@ -29,6 +29,12 @@ const routes = [
     component: () => import('@/grupos/views/GrupoDetailView.vue'),
     props: true,
   },
+  {
+    path: '/grupos/:id/gastos',
+    name: 'gastos',
+    component: () => import('@/gastos/views/GastosView.vue'),
+    props: true,
+  },
 ]
 
 export const router = createRouter({

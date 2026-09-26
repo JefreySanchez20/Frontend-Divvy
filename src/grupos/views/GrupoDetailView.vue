@@ -82,6 +82,16 @@ async function onArchivar() {
       </div>
       <p class="text-sm text-ink-faint mb-8 ml-12">Moneda: <span class="cifra">{{ moneda }}</span></p>
 
+      <RouterLink
+        :to="{ name: 'gastos', params: { id } }"
+        class="flex items-center justify-between rounded-md border border-paper-line px-4 py-3 mb-8 text-sm text-ink hover:border-brand hover:text-brand transition-colors"
+      >
+        Gastos del grupo
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </RouterLink>
+
       <section class="mb-8">
         <h2 class="text-sm font-medium text-ink-soft mb-3">Miembros</h2>
         <MiembroList
