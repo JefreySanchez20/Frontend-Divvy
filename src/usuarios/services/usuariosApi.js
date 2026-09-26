@@ -7,6 +7,6 @@ export async function buscarUsuarioPorEmail(email) {
 
 /** Resuelve varios usuarios de una sola vez. Ids que no existen se omiten, sin error. */
 export async function buscarUsuariosPorIds(ids) {
-  const { data } = await httpClient.get('/api/users', { params: { ids: ids.join(',') } })
+  const { data } = await httpClient.get('/api/users/batch', { params: { ids: ids.join(',') } })
   return data
 }
