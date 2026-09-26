@@ -73,7 +73,9 @@ describe('GastoForm', () => {
     expect(screen.getByRole('status').textContent).toMatch(/Falta 50\.00 PEN/)
     await fireEvent.click(screen.getByRole('button', { name: 'Registrar gasto' }))
     expect(crear).not.toHaveBeenCalled()
-    expect(screen.getByText(/faltan 50\.00/)).toBeTruthy()
+    // El indicador ya lo dice: no se repite en una alerta aparte.
+    expect(screen.getByRole('status').textContent).toMatch(/Falta 50\.00 PEN/)
+    expect(screen.queryByText(/Los montos suman/)).toBeNull()
   })
 
   it('envía porcentajes (no montos) cuando suman 100', async () => {

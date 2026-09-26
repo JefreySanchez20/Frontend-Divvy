@@ -254,7 +254,10 @@ async function onSubmit() {
       </p>
     </fieldset>
 
-    <BaseAlert v-if="intentado && division.error" variant="error">{{ division.error }}</BaseAlert>
+    <!-- Si el indicador de arriba ya dice cuánto falta o sobra, repetirlo aquí es ruido. -->
+    <BaseAlert v-if="intentado && division.error && (!resumen || resumen.ok)" variant="error">
+      {{ division.error }}
+    </BaseAlert>
     <BaseAlert v-if="errorApi" variant="error">{{ errorApi }}</BaseAlert>
 
     <div class="flex gap-3">
