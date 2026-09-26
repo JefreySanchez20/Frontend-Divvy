@@ -67,6 +67,40 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    /** El backend responde 200 exista o no la cuenta (no revela emails registrados). */
+    async solicitarRecuperacion(email) {
+      this.cargando = true
+      this.error = null
+      try {
+        await httpClient.post('/api/auth/forgot-password', { email })
+      } catch (err) {
+        this.error = err.message
+        throw err
+      } finally {
+        this.cargando = false
+      }
+    },
+
+    async restablecerPassword({ codigo, nuevaPassword }) {
+      this.cargando = true
+      this.error = null
+      try {
+        // Los códigos son de 6 caracteres en mayúsculas: se normaliza lo que se escribió.
+        await httpClient.post('/api/auth/reset-password', {
+          token: codigo.trim().toUpperCase(),
+          newPassword: nuevaPassword,
+        })
+      } catch (err) {
+        this.error =
+          err.code === 'INVARIANT_VIOLATED'
+            ? 'El código no es válido o ya expiró. Pide uno nuevo.'
+            : err.message
+        throw err
+      } finally {
+        this.cargando = false
+      }
+    },
+
     async cerrarSesion() {
       try {
         await httpClient.post('/api/auth/logout')

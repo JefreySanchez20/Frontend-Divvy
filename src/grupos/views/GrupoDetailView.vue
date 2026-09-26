@@ -13,7 +13,7 @@ import AvatarInicial from '@/shared/components/AvatarInicial.vue'
 const props = defineProps({ id: { type: String, required: true } })
 
 const gruposStore = useGruposStore()
-const { grupoActual, cargando } = storeToRefs(gruposStore)
+const { grupoActual, cargando, error } = storeToRefs(gruposStore)
 const { currentUser } = useAuth()
 
 const emailNuevoMiembro = ref('')
@@ -26,7 +26,7 @@ const miRol = computed(
   () => grupoActual.value?.members.find((m) => m.userId === currentUser.value?.id)?.role,
 )
 const esAdmin = computed(() => miRol.value === 'ADMIN')
-const moneda = computed(() => gruposStore.obtenerMoneda(props.id))
+const moneda = computed(() => grupoActual.value?.currency ?? 'PEN')
 
 async function onAgregarMiembro() {
   agregando.value = true
@@ -66,6 +66,8 @@ async function onArchivar() {
     </RouterLink>
 
     <p v-if="cargando && !grupoActual" class="text-sm text-ink-faint">Cargando grupo…</p>
+
+    <BaseAlert v-else-if="error && !grupoActual" variant="error">{{ error }}</BaseAlert>
 
     <template v-else-if="grupoActual">
       <div class="flex items-start justify-between mb-1">

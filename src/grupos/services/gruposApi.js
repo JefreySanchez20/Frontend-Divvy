@@ -10,8 +10,8 @@ export async function obtenerGrupo(id) {
   return data
 }
 
-export async function crearGrupo({ name }) {
-  const { data } = await httpClient.post('/api/groups', { name })
+export async function crearGrupo({ name, currency }) {
+  const { data } = await httpClient.post('/api/groups', { name, currency })
   return data
 }
 

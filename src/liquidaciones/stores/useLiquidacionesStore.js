@@ -8,6 +8,9 @@ export const useLiquidacionesStore = defineStore('liquidaciones', {
     cargando: false,
     pagandoId: null,
     error: null,
+    historial: [],
+    cargandoHistorial: false,
+    errorHistorial: null,
   }),
 
   getters: {
@@ -34,6 +37,23 @@ export const useLiquidacionesStore = defineStore('liquidaciones', {
         this.error = err.message
       } finally {
         this.cargando = false
+      }
+    },
+
+    /** Solo lectura: a diferencia de calcular(), no genera entradas nuevas en el historial. */
+    async cargarHistorial(groupId) {
+      this.cargandoHistorial = true
+      this.errorHistorial = null
+      try {
+        const historial = await liquidacionesApi.obtenerHistorial(groupId)
+        const ids = historial.flatMap((l) => l.debts.flatMap((d) => [d.debtorId, d.creditorId]))
+        await useUsuariosCacheStore().resolverIds(ids).catch(() => {})
+        this.historial = historial
+      } catch (err) {
+        this.errorHistorial = err.message
+        this.historial = []
+      } finally {
+        this.cargandoHistorial = false
       }
     },
 

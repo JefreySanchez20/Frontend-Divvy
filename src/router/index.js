@@ -19,6 +19,18 @@ const routes = [
     meta: { publica: true },
   },
   {
+    path: '/olvide-contrasena',
+    name: 'olvide-contrasena',
+    component: () => import('@/auth/views/OlvideContrasenaView.vue'),
+    meta: { publica: true },
+  },
+  {
+    path: '/restablecer-contrasena',
+    name: 'restablecer-contrasena',
+    component: () => import('@/auth/views/RestablecerContrasenaView.vue'),
+    meta: { publica: true },
+  },
+  {
     path: '/grupos',
     name: 'grupos',
     component: () => import('@/grupos/views/GruposListView.vue'),
@@ -39,6 +51,12 @@ const routes = [
     path: '/grupos/:id/liquidaciones',
     name: 'liquidaciones',
     component: () => import('@/liquidaciones/views/LiquidacionesView.vue'),
+    props: true,
+  },
+  {
+    path: '/grupos/:id/liquidaciones/historial',
+    name: 'liquidaciones-historial',
+    component: () => import('@/liquidaciones/views/HistorialLiquidacionesView.vue'),
     props: true,
   },
 ]

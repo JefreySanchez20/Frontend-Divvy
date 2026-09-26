@@ -54,6 +54,9 @@ async function onSubmit() {
         <BaseAlert v-else-if="route.query.registrado" variant="info">
           Cuenta creada. Inicia sesión para continuar.
         </BaseAlert>
+        <BaseAlert v-else-if="route.query.restablecida" variant="info">
+          Contraseña actualizada. Inicia sesión con la nueva.
+        </BaseAlert>
 
         <div class="pt-2">
           <BaseButton type="submit" class="w-full" :disabled="cargando">
@@ -65,7 +68,13 @@ async function onSubmit() {
         </div>
       </form>
 
-      <p class="mt-8 text-sm text-ink-soft">
+      <p class="mt-6 text-sm">
+        <RouterLink to="/olvide-contrasena" class="text-ink-soft hover:text-brand transition-colors">
+          ¿Olvidaste tu contraseña?
+        </RouterLink>
+      </p>
+
+      <p class="mt-4 text-sm text-ink-soft">
         ¿No tienes cuenta?
         <RouterLink to="/registro" class="text-brand font-medium hover:text-brand-dim">
           Crea una

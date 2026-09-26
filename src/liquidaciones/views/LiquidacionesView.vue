@@ -73,5 +73,12 @@ async function onPagar(deuda) {
       :pagando-id="pagandoId"
       @pagar="onPagar"
     />
+
+    <RouterLink
+      :to="{ name: 'liquidaciones-historial', params: { id } }"
+      class="inline-block mt-10 text-sm text-ink-soft hover:text-brand transition-colors"
+    >
+      Ver historial de cálculos
+    </RouterLink>
   </div>
 </template>

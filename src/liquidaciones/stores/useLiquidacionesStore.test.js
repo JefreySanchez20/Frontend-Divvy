@@ -70,4 +70,26 @@ describe('useLiquidacionesStore', () => {
     expect(store.pagandoId).toBeNull()
     expect(store.deudas[0].status).toBe('PENDING')
   })
+
+  it('cargarHistorial guarda las entradas y resuelve los nombres, sin recalcular', async () => {
+    api.obtenerHistorial.mockResolvedValue([liquidacion('PAID'), liquidacion()])
+    const store = useLiquidacionesStore()
+
+    await store.cargarHistorial('g1')
+
+    expect(store.historial).toHaveLength(2)
+    expect(useUsuariosCacheStore().resolverIds).toHaveBeenCalled()
+    expect(api.calcularLiquidacion).not.toHaveBeenCalled()
+  })
+
+  it('cargarHistorial: si falla deja el error y el historial vacío', async () => {
+    api.obtenerHistorial.mockRejectedValue({ message: 'No se pudo conectar con el servidor.' })
+    const store = useLiquidacionesStore()
+
+    await store.cargarHistorial('g1')
+
+    expect(store.errorHistorial).toBe('No se pudo conectar con el servidor.')
+    expect(store.historial).toEqual([])
+    expect(store.cargandoHistorial).toBe(false)
+  })
 })

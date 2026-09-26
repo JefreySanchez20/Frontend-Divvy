@@ -2,40 +2,15 @@ import { defineStore } from 'pinia'
 import * as gruposApi from '../services/gruposApi'
 import { useUsuariosCacheStore } from '@/usuarios/stores/useUsuariosCacheStore'
 
-const MONEDAS_STORAGE_KEY = 'divvy_monedas_grupo'
-
-function leerMonedas() {
-  try {
-    return JSON.parse(localStorage.getItem(MONEDAS_STORAGE_KEY)) ?? {}
-  } catch {
-    return {}
-  }
-}
-
 export const useGruposStore = defineStore('grupos', {
   state: () => ({
     grupos: [],
     grupoActual: null,
-    monedasPorGrupo: leerMonedas(),
     cargando: false,
     error: null,
   }),
 
   actions: {
-    /**
-     * El backend no guarda moneda a nivel de grupo (currency solo existe en
-     * Expense y no se valida contra mezclas). La fijamos acá, en el cliente,
-     * la primera vez que se crea el grupo, y la reusamos en cada gasto.
-     */
-    obtenerMoneda(groupId) {
-      return this.monedasPorGrupo[groupId] ?? 'PEN'
-    },
-
-    guardarMoneda(groupId, moneda) {
-      this.monedasPorGrupo[groupId] = moneda
-      localStorage.setItem(MONEDAS_STORAGE_KEY, JSON.stringify(this.monedasPorGrupo))
-    },
-
     async cargarGrupos() {
       this.cargando = true
       this.error = null
@@ -51,6 +26,8 @@ export const useGruposStore = defineStore('grupos', {
     async cargarGrupo(id) {
       this.cargando = true
       this.error = null
+      // Si el nuevo grupo falla (403/404), no debe verse el anterior bajo esta URL.
+      if (this.grupoActual?.id !== id) this.grupoActual = null
       try {
         this.grupoActual = await gruposApi.obtenerGrupo(id)
         const usuariosCache = useUsuariosCacheStore()
@@ -63,8 +40,8 @@ export const useGruposStore = defineStore('grupos', {
     },
 
     async crear({ name, moneda }) {
-      const grupo = await gruposApi.crearGrupo({ name })
-      this.guardarMoneda(grupo.id, moneda)
+      // La moneda es del grupo (la guarda y valida el backend), no del navegador.
+      const grupo = await gruposApi.crearGrupo({ name, currency: moneda })
       this.grupos.unshift(grupo)
       return grupo
     },

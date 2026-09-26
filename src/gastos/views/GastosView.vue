@@ -21,7 +21,7 @@ const formulario = ref(null)
 const errorAccion = ref('')
 
 const archivado = computed(() => grupoActual.value?.status === 'ARCHIVED')
-const moneda = computed(() => gruposStore.obtenerMoneda(props.id))
+const moneda = computed(() => grupoActual.value?.currency ?? 'PEN')
 
 onMounted(async () => {
   // El detalle del grupo trae los miembros que necesita el formulario.

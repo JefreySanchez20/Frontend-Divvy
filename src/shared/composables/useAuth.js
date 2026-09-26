@@ -13,6 +13,8 @@ export function useAuth() {
     error,
     iniciarSesion: store.iniciarSesion,
     registrar: store.registrar,
+    solicitarRecuperacion: store.solicitarRecuperacion,
+    restablecerPassword: store.restablecerPassword,
     cerrarSesion: store.cerrarSesion,
   }
 }
