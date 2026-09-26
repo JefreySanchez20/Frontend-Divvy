@@ -7,6 +7,7 @@ const props = defineProps({
   type: { type: String, default: 'text' },
   autocomplete: { type: String, default: 'off' },
   error: { type: String, default: '' },
+  required: { type: Boolean, default: false },
 })
 defineEmits(['update:modelValue'])
 
@@ -26,6 +27,7 @@ const errorId = useId()
         :type="tipoReal"
         :value="modelValue"
         :autocomplete="autocomplete"
+        :required="required"
         :aria-describedby="error ? errorId : undefined"
         class="w-full rounded-md border bg-paper px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint outline-none transition-colors"
         :class="[error ? 'border-debe' : 'border-paper-line focus:border-brand', esPassword ? 'pr-10' : '']"
