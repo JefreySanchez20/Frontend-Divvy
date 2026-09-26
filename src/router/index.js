@@ -35,6 +35,12 @@ const routes = [
     component: () => import('@/gastos/views/GastosView.vue'),
     props: true,
   },
+  {
+    path: '/grupos/:id/liquidaciones',
+    name: 'liquidaciones',
+    component: () => import('@/liquidaciones/views/LiquidacionesView.vue'),
+    props: true,
+  },
 ]
 
 export const router = createRouter({

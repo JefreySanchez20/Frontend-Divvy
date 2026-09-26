@@ -1,6 +1,6 @@
 <script setup>
 import { useUsuariosCacheStore } from '@/usuarios/stores/useUsuariosCacheStore'
-import { aCentesimas, formatearCentesimas } from '../utils/division'
+import { formatearMonto } from '@/shared/utils/dinero'
 
 defineProps({
   gastos: { type: Array, required: true },
@@ -18,10 +18,6 @@ const ETIQUETAS_TIPO = {
 
 const formatearFecha = (fecha) =>
   new Date(fecha).toLocaleDateString('es-PE', { day: 'numeric', month: 'short', year: 'numeric' })
-
-// El backend devuelve el monto como número (150 o 150.5): se pasa por texto
-// con 2 decimales para reusar el mismo formateo que el resto de la app.
-const formatearMonto = (monto) => formatearCentesimas(aCentesimas(Number(monto).toFixed(2)))
 </script>
 
 <template>
